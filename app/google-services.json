@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "150379459373",
+    "project_id": "app-pasteleria-dd736",
+    "storage_bucket": "app-pasteleria-dd736.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150379459373:android:e3f9089cf5832a266dd9a4",
+        "android_client_info": {
+          "package_name": "com.anthonydevs.intento3.pasteleria"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhP6jUJKBPwzpeXLS0C8m_cpgm3fBD5IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
