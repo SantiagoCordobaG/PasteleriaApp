@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
             // finish()
         }
 
+        //Falta boton de volver en la barra nav
         // Lógica al hacer clic en el enlace de registro
         signUpLink.setOnClickListener {
             // Aquí va el código para ir a la pantalla de registro
