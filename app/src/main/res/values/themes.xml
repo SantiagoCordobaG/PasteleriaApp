@@ -1,0 +1,9 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.Theme.Intento3" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/pink_button</item>
+        <item name="colorPrimaryDark">@color/pink_link</item>
+        <item name="colorAccent">@color/pink_link</item>
+
+    </style>
+
+</resources>
