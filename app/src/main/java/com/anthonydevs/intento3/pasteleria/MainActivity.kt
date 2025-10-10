@@ -62,9 +62,10 @@ class MainActivity : AppCompatActivity() {
                 }
         }
 
-        // Link de registro
+        // ✅ Enlace al registro
         signUpLink.setOnClickListener {
-            Toast.makeText(this, "Ir a registro (próximamente)", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
         }
     }
 
