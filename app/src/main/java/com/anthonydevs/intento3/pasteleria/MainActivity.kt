@@ -73,8 +73,12 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
+            // Usuario sigue logueado → ir al catálogo
             startActivity(Intent(this, CatalogoActivity::class.java))
             finish()
+        }else {
+            // Usuario no logueado → quedarse en login
+            FirebaseAuth.getInstance().signOut()
         }
     }
 }
