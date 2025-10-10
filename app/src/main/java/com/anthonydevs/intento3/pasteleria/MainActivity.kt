@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                             startActivity(Intent(this, CatalogoActivity::class.java))
                             finish()
                         } else {
-                            // 🚫 Correo no verificado
+                            // 🚫 Correo no verificado.
                             Toast.makeText(
                                 this,
                                 "Debes verificar tu correo antes de ingresar.",
