@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.anthonydevs.intento3.pasteleria">
 
+    <!-- 🔒 Permiso para conectarse a Firebase -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".MyApp"
         android:allowBackup="true"
