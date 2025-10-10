@@ -7,15 +7,58 @@
     android:layout_height="match_parent"
     tools:context=".CatalogoActivity">
 
-    <!-- Contenedor del contenido desplazable -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerCatalogo"
+    <!-- Contenedor principal con desplazamiento -->
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="8dp"
-        android:clipToPadding="false"
-        android:scrollbars="vertical"
-        android:layout_marginBottom="70dp" /> <!-- deja espacio para la barra -->
+        android:clipToPadding="false">
+
+        <!-- 🔍 Barra de búsqueda -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="8dp"
+            android:layout_marginBottom="8dp">
+
+            <EditText
+                android:id="@+id/etBuscarProducto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Buscar producto..."
+                android:background="@drawable/edittext_background"
+                android:padding="10dp"
+                android:drawableStart="@android:drawable/ic_menu_search"
+                android:drawablePadding="8dp"
+                android:inputType="text"
+                android:imeOptions="actionSearch" />
+
+            <Button
+                android:id="@+id/btnBuscar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Buscar"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="@color/teal_700"
+                android:textColor="@android:color/white"
+                android:elevation="3dp" />
+        </LinearLayout>
+
+        <!-- 🔄 Lista de productos -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerCatalogo"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingBottom="?attr/actionBarSize"
+            android:clipToPadding="false"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/item_catalogo"/>
+    </LinearLayout>
 
     <!-- 🔒 Botón de cerrar sesión -->
     <Button
@@ -31,13 +74,14 @@
         android:paddingVertical="8dp"
         android:elevation="4dp" />
 
-    <!-- Barra de navegación inferior fija -->
+    <!-- 🔽 Barra de navegación inferior fija -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
-        app:menu="@menu/bottom_nav_menu" />
+        android:background="@color/white"
+        app:menu="@menu/bottom_nav_menu"
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
