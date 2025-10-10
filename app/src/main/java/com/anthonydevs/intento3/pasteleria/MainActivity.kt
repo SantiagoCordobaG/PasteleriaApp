@@ -1,49 +1,80 @@
 package com.anthonydevs.intento3.pasteleria
-//MAIN ACTIVITY = LOGIN
-import android.content.Intent // <-- Importación agregada para navegar entre actividades
+
+import android.content.Intent
 import android.os.Bundle
-import android.widget.TextView // <-- Importación agregada
-import android.widget.Toast // <-- Importación agregada
-import androidx.activity.enableEdgeToEdge
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.button.MaterialButton // <-- Importación agregada
+import com.google.android.material.button.MaterialButton
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var auth: FirebaseAuth
+    private lateinit var emailEditText: EditText
+    private lateinit var passwordEditText: EditText
+    private lateinit var loginButton: MaterialButton
+    private lateinit var signUpLink: TextView
+    private lateinit var tvError: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Nota: Las siguientes líneas (opcionales) se usan para el "Edge-to-Edge" UI,
-        // pero pueden ser eliminadas si no las estás usando.
-        /*
-        enableEdgeToEdge()
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-        */
+        // Inicializamos FirebaseAuth
+        auth = FirebaseAuth.getInstance()
 
-        val loginButton = findViewById<MaterialButton>(R.id.login_button)
-        val signUpLink = findViewById<TextView>(R.id.signup_link)
+        // Vinculamos vistas
+        emailEditText = findViewById(R.id.email_edit_text)
+        passwordEditText = findViewById(R.id.password_edit_text)
+        loginButton = findViewById(R.id.login_button)
+        signUpLink = findViewById(R.id.signup_link)
+        tvError = findViewById(R.id.tvError)
 
-        // Lógica al hacer clic en el botón de Login
+        // LOGIN con Firebase
         loginButton.setOnClickListener {
-            // Navegar al catálogo en lugar de mostrar un Toast
-            val intent = Intent(this, CatalogoActivity::class.java)
-            startActivity(intent)
+            val email = emailEditText.text.toString().trim()
+            val password = passwordEditText.text.toString().trim()
 
-            // Opcional: finalizar esta actividad para que no se pueda volver atrás
-            // finish()
+            if (email.isEmpty() || password.isEmpty()) {
+                tvError.text = "Por favor llena todos los campos"
+                return@setOnClickListener
+            }
+
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        startActivity(Intent(this, CatalogoActivity::class.java))
+                        finish()
+                    } else {
+                        val ex = task.exception
+                        val msg = when (ex) {
+                            is FirebaseAuthInvalidUserException -> "Usuario no registrado"
+                            is FirebaseAuthInvalidCredentialsException -> "Contraseña incorrecta"
+                            else -> "Error: ${ex?.localizedMessage}"
+                        }
+                        tvError.text = msg
+                        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+                    }
+                }
         }
 
-        //Falta boton de volver en la barra nav
-        // Lógica al hacer clic en el enlace de registro
+        // Link de registro
         signUpLink.setOnClickListener {
-            // Aquí va el código para ir a la pantalla de registro
-            Toast.makeText(this, "Navegando a Sign Up", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Ir a registro (próximamente)", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // Si quieres mantener la sesión, deja esto, si no, lo puedes borrar
+    override fun onStart() {
+        super.onStart()
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            startActivity(Intent(this, CatalogoActivity::class.java))
+            finish()
         }
     }
 }

@@ -63,9 +63,17 @@ class LoginActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         val user = FirebaseAuth.getInstance().currentUser
+
+        // Validamos si la sesión sigue activa
         if (user != null) {
-            startActivity(Intent(this, CatalogoActivity::class.java))
-            finish()
+            user.reload().addOnCompleteListener { task ->
+                if (task.isSuccessful && FirebaseAuth.getInstance().currentUser != null) {
+                    startActivity(Intent(this, CatalogoActivity::class.java))
+                    finish()
+                } else {
+                    FirebaseAuth.getInstance().signOut()
+                }
+            }
         }
     }
 }
