@@ -47,8 +47,20 @@ class MainActivity : AppCompatActivity() {
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        startActivity(Intent(this, CatalogoActivity::class.java))
-                        finish()
+                        val user = auth.currentUser
+                        if (user != null && user.isEmailVerified) {
+                            // ✅ Correo verificado → ir al catálogo
+                            startActivity(Intent(this, CatalogoActivity::class.java))
+                            finish()
+                        } else {
+                            // 🚫 Correo no verificado
+                            Toast.makeText(
+                                this,
+                                "Debes verificar tu correo antes de ingresar.",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            auth.signOut()
+                        }
                     } else {
                         val ex = task.exception
                         val msg = when (ex) {
@@ -69,16 +81,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Si quieres mantener la sesión, deja esto, si no, lo puedes borrar
     override fun onStart() {
         super.onStart()
         val user = FirebaseAuth.getInstance().currentUser
-        if (user != null) {
-            // Usuario sigue logueado → ir al catálogo
+        if (user != null && user.isEmailVerified) {
+            // ✅ Usuario verificado → ir al catálogo
             startActivity(Intent(this, CatalogoActivity::class.java))
             finish()
-        }else {
-            // Usuario no logueado → quedarse en login
+        } else {
+            // 🚫 Usuario no logueado o no verificado → cerrar sesión
             FirebaseAuth.getInstance().signOut()
         }
     }

@@ -60,11 +60,26 @@ class RegisterActivity : AppCompatActivity() {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Toast.makeText(this, "Registro exitoso 🎉", Toast.LENGTH_SHORT).show()
-                        // Redirigir al login
-                        val intent = Intent(this, LoginActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                        val user = auth.currentUser
+                        user?.sendEmailVerification()?.addOnCompleteListener { verifyTask ->
+                            if (verifyTask.isSuccessful) {
+                                Toast.makeText(
+                                    this,
+                                    "Se ha enviado un correo de verificación a $email. Verifica tu cuenta antes de iniciar sesión.",
+                                    Toast.LENGTH_LONG
+                                ).show()
+
+                                // Cerrar sesión para obligar a verificar
+                                auth.signOut()
+
+                                // Redirigir al login
+                                val intent = Intent(this, MainActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            } else {
+                                showError("Error al enviar correo de verificación: ${verifyTask.exception?.localizedMessage}")
+                            }
+                        }
                     } else {
                         val errorMsg = task.exception?.localizedMessage ?: "Error desconocido"
                         showError("No se pudo registrar: $errorMsg")
@@ -74,7 +89,7 @@ class RegisterActivity : AppCompatActivity() {
 
         // Ir al login si ya tiene cuenta
         loginLink.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }
