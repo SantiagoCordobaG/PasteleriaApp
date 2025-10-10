@@ -6,19 +6,11 @@
         android:title="Inicio" />
     <!-- Aca arriba el IC es HOME no inicio (para tener en cuenta) y esto es el catalogo -->
 
-    <!--
-    <item
-        android:id="@+id/navigation_catalogo"
-        android:icon="@drawable/ic_catalogo"
-        android:title="Catálogo" />
-
- -Pongo en comentario estos items proque en la barra inferior solo ira el home y la cuenta
 
     <item
         android:id="@+id/navigation_carrito"
         android:icon="@drawable/ic_carrito"
         android:title="Carrito" />
-    -->
 
     <item
         android:id="@+id/navigation_cuenta"
