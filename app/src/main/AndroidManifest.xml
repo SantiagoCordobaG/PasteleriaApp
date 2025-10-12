@@ -32,11 +32,18 @@
             android:name=".CatalogoActivity"
             android:exported="false" />
 
-        <!-- Actividad del catálogo -->
+        <!-- Actividad del Registro -->
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
 
-    </application>
+        <!-- Actividad del Cuenta -->
+       <activity android:name=".CuentaActivity" />
+
+        <!-- Actividad del Cuenta -->
+        <activity android:name=".CarritoActivity" />
+
+
+   </application>
 
 </manifest>

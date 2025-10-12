@@ -60,7 +60,7 @@
             tools:listitem="@layout/item_catalogo"/>
     </LinearLayout>
 
-    <!-- 🔒 Botón de cerrar sesión -->
+    <!-- 🔒 Botón de cerrar sesión
     <Button
         android:id="@+id/btnCerrarSesion"
         android:layout_width="wrap_content"
@@ -73,6 +73,7 @@
         android:paddingHorizontal="16dp"
         android:paddingVertical="8dp"
         android:elevation="4dp" />
+    -->
 
     <!-- 🔽 Barra de navegación inferior fija -->
     <com.google.android.material.bottomnavigation.BottomNavigationView

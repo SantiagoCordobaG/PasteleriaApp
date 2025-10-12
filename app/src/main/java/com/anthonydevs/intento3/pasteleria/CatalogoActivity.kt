@@ -50,22 +50,23 @@ class CatalogoActivity : AppCompatActivity() {
             adapter.filtrar(texto)
         }
 
-        // 🔒 Botón de cerrar sesión
-        val btnCerrarSesion = findViewById<Button>(R.id.btnCerrarSesion)
-        btnCerrarSesion.setOnClickListener {
-            auth.signOut()
-            val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-            finish()
-        }
-
         // 🔽 Barra inferior
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
+        bottomNav.selectedItemId = R.id.navigation_home
+
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> true
-                R.id.navigation_cuenta -> true
+                R.id.navigation_carrito -> {
+                    startActivity(Intent(this, CarritoActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                R.id.navigation_cuenta -> {
+                    startActivity(Intent(this, CuentaActivity::class.java))
+                    overridePendingTransition(0, 0)
+                    true
+                }
                 else -> false
             }
         }

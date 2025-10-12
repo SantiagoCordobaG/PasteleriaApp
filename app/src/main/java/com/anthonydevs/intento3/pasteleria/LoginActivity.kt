@@ -23,14 +23,16 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Inicializar vistas
+        // 🔹 Inicializamos vistas
         etEmail = findViewById(R.id.email_edit_text)
         etPassword = findViewById(R.id.password_edit_text)
         btnLogin = findViewById(R.id.login_button)
         tvError = findViewById(R.id.tvError)
 
+        // 🔹 Inicializamos Firebase
         auth = FirebaseAuth.getInstance()
 
+        // 🔹 Botón de inicio de sesión
         btnLogin.setOnClickListener {
             val email = etEmail.text.toString().trim()
             val password = etPassword.text.toString().trim()
@@ -43,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
+                        Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this, CatalogoActivity::class.java)
                         startActivity(intent)
                         finish()
@@ -62,18 +65,12 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val user = FirebaseAuth.getInstance().currentUser
 
-        // Validamos si la sesión sigue activa
+        // ✅ Si el usuario ya está autenticado, lo mandamos directamente al catálogo
+        val user = auth.currentUser
         if (user != null) {
-            user.reload().addOnCompleteListener { task ->
-                if (task.isSuccessful && FirebaseAuth.getInstance().currentUser != null) {
-                    startActivity(Intent(this, CatalogoActivity::class.java))
-                    finish()
-                } else {
-                    FirebaseAuth.getInstance().signOut()
-                }
-            }
+            startActivity(Intent(this, CatalogoActivity::class.java))
+            finish()
         }
     }
 }
