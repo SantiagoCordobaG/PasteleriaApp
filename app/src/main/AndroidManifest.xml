@@ -5,6 +5,9 @@
 
     <!-- 🔒 Permiso para conectarse a Firebase -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_AD_ID" tools:node="remove" />
+    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_ATTRIBUTION" tools:node="remove" />
+
 
     <application
         android:name=".MyApp"
