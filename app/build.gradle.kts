@@ -15,8 +15,8 @@ android {
         applicationId = "com.anthonydevs.intento3.pasteleria"
         minSdk = 24
         targetSdk = 36
-        versionCode = 3
-        versionName = "1.2"
+        versionCode = 4
+        versionName = "1.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -60,7 +60,6 @@ dependencies {
     // Firebase productos
     implementation("com.google.firebase:firebase-auth")       // Autenticación
     implementation("com.google.firebase:firebase-messaging")  // Mensajería
-    implementation("com.google.firebase:firebase-analytics")  // Analytics
     implementation("com.google.firebase:firebase-firestore")  // Firestore
 
 
