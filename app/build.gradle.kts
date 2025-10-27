@@ -48,10 +48,10 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("androidx.recyclerview:recyclerview:1.4.0")
     implementation("androidx.cardview:cardview:1.0.0")
 
-    implementation(platform("com.google.firebase:firebase-bom:34.3.0"))
+    implementation(platform("com.google.firebase:firebase-bom:34.4.0"))
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-messaging")
     implementation("com.google.firebase:firebase-firestore")
