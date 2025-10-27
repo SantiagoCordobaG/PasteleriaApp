@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".MainActivity">
-    <!-- cambie .pasteleria.MainActivity por .MainActivity-->
 
     <!-- Imagen de fondo -->
     <ImageView
@@ -16,13 +15,12 @@
         android:layout_height="0dp"
         android:scaleType="centerCrop"
         android:src="@drawable/imagen_fondo_login"
+        android:contentDescription="@string/background_description"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/login_area_guideline"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="Imagen de fondo de login" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Guía para separar el área del formulario -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/login_area_guideline"
         android:layout_width="wrap_content"
@@ -30,7 +28,6 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.62" />
 
-    <!-- Panel inferior blanco -->
     <View
         android:id="@+id/bottom_panel"
         android:layout_width="0dp"
@@ -41,12 +38,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Título superior -->
     <TextView
         android:id="@+id/top_login_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log in"
+        android:text="@string/login_title"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -55,12 +51,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Campo de correo -->
     <EditText
         android:id="@+id/email_edit_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Correo electrónico"
+        android:hint="@string/email_hint"
         android:inputType="textEmailAddress"
         android:drawablePadding="10dp"
         android:backgroundTint="@color/gray_text"
@@ -71,12 +66,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Campo de contraseña -->
     <EditText
         android:id="@+id/password_edit_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Contraseña"
+        android:hint="@string/password_hint"
         android:inputType="textPassword"
         android:drawablePadding="10dp"
         android:backgroundTint="@color/gray_text"
@@ -87,12 +81,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Botón de login -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/login_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Iniciar sesión"
+        android:text="@string/login_button"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:paddingTop="12dp"
@@ -106,7 +99,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 💡 NUEVO: Mensaje de error -->
     <TextView
         android:id="@+id/tvError"
         android:layout_width="0dp"
@@ -123,12 +115,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Texto: ¿No tienes cuenta? -->
     <TextView
         android:id="@+id/signup_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="¿No tienes cuenta?"
+        android:text="@string/signup_question"
         android:layout_marginBottom="32dp"
         android:textColor="@color/gray_text"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -136,12 +127,11 @@
         app:layout_constraintEnd_toStartOf="@id/signup_link"
         app:layout_constraintHorizontal_chainStyle="packed" />
 
-    <!-- Enlace de registro -->
     <TextView
         android:id="@+id/signup_link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=" Regístrate"
+        android:text="@string/signup_link"
         android:textColor="@color/pink_link"
         android:textStyle="bold"
         android:clickable="true"

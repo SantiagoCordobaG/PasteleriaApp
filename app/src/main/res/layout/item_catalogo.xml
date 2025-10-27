@@ -21,13 +21,14 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/imagen_fondo_login" />
+            android:src="@drawable/imagen_fondo_login"
+            android:contentDescription="@string/product_image_description" />
 
         <TextView
             android:id="@+id/tvNombreProducto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pastel de ejemplo"
+            android:text="@string/product_example_name"
             android:textStyle="bold"
             android:gravity="center"
             android:layout_marginTop="6dp"
@@ -37,7 +38,7 @@
             android:id="@+id/tvPrecioProducto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="$25.000"
+            android:text="@string/price_example"
             android:textColor="@color/teal_700"
             android:layout_marginTop="2dp"
             android:textStyle="bold"/>
@@ -46,7 +47,7 @@
             android:id="@+id/btnAgregarCarrito"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Añadir al carrito"
+            android:text="@string/add_to_cart"
             android:textSize="12sp"
             android:layout_marginTop="6dp"
             android:backgroundTint="@color/teal_700"

@@ -3,14 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.anthonydevs.intento3.pasteleria">
 
-    <!-- 🔒 Permiso para conectarse a Firebase -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_ADSERVICES_AD_ID" tools:node="remove" />
     <uses-permission android:name="android.permission.ACCESS_ADSERVICES_ATTRIBUTION" tools:node="remove" />
 
 
     <application
-        android:name=".MyApp"
+        android:name=".core.MyApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -20,9 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.Intento3">
 
-        <!-- Actividad principal (Inicio/Login o pantalla inicial) -->
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.login.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,21 +28,23 @@
             </intent-filter>
         </activity>
 
-        <!-- Actividad del catálogo -->
         <activity
-            android:name=".CatalogoActivity"
+            android:name=".ui.login.LoginActivity"
             android:exported="false" />
 
-        <!-- Actividad del Registro -->
         <activity
-            android:name=".RegisterActivity"
+            android:name=".ui.catalog.CatalogoActivity"
             android:exported="false" />
 
-        <!-- Actividad del Cuenta -->
-       <activity android:name=".CuentaActivity" />
+        <activity
+            android:name=".ui.register.RegisterActivity"
+            android:exported="false" />
 
-        <!-- Actividad del Cuenta -->
-        <activity android:name=".CarritoActivity" />
+        <activity android:name=".ui.account.CuentaActivity"
+            android:exported="false" />
+
+        <activity android:name=".ui.cart.CarritoActivity"
+            android:exported="false" />
 
 
    </application>
