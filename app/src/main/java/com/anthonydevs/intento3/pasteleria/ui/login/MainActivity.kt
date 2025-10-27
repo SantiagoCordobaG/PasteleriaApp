@@ -59,6 +59,10 @@ class MainActivity : AppCompatActivity() {
         binding.signupLink.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
+
+        binding.forgotPasswordLink.setOnClickListener {
+            startActivity(Intent(this, RecuperarContrasenaActivity::class.java))
+        }
     }
 
     override fun onStart() {

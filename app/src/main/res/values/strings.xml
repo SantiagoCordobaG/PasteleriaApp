@@ -5,6 +5,7 @@
     <string name="login_button">Iniciar sesión</string>
     <string name="signup_question">¿No tienes cuenta?</string>
     <string name="signup_link">Regístrate</string>
+    <string name="forgot_password">¿Olvidaste tu contraseña?</string>
     <string name="login_title">log in</string>
     <string name="background_description">Imagen de fondo de login</string>
     <string name="email_hint">Correo electrónico</string>

@@ -17,7 +17,6 @@ class CuentaActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCuentaBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-    private var is2FAEnabled = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +27,14 @@ class CuentaActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
 
         checkUserAuthentication()
-        displayUserInfo()
-        load2FAStatus()
         setupClickListeners()
         setupBottomNavigation()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        displayUserInfo()
+        binding.bottomNavigationView.selectedItemId = R.id.navigation_cuenta
     }
 
     private fun checkUserAuthentication() {
@@ -43,78 +46,35 @@ class CuentaActivity : AppCompatActivity() {
 
     private fun displayUserInfo() {
         auth.currentUser?.let { user ->
-            binding.tvNombreUsuario.text = getString(
-                R.string.user_name_format,
-                user.displayName ?: getString(R.string.default_user_name)
-            )
-            binding.tvCorreoUsuario.text = getString(
-                R.string.user_email_format,
-                user.email ?: getString(R.string.no_email)
-            )
-        }
-    }
+            binding.tvNombreUsuario.text = user.displayName ?: "Usuario"
+            binding.tvCorreoUsuario.text = user.email ?: "correo@ejemplo.com"
 
-    private fun load2FAStatus() {
-        auth.currentUser?.let { user ->
             db.collection("users").document(user.uid)
                 .get()
                 .addOnSuccessListener { document ->
                     if (document.exists()) {
-                        is2FAEnabled = document.getBoolean("twoFactorEnabled") ?: false
-                        update2FADisplay()
+                        binding.tvDireccion.text = document.getString("direccion") ?: "No especificada"
+                    } else {
+                        binding.tvDireccion.text = "No especificada"
                     }
+                }
+                .addOnFailureListener {
+                    binding.tvDireccion.text = "No especificada"
                 }
         }
     }
 
     private fun setupClickListeners() {
-        binding.btnToggle2FA.setOnClickListener {
-            toggle2FA()
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
+
+        binding.btnEditarPerfil.setOnClickListener {
+            startActivity(Intent(this, EditarPerfilActivity::class.java))
         }
 
         binding.btnCerrarSesion.setOnClickListener {
             logout()
-        }
-    }
-
-    private fun toggle2FA() {
-        is2FAEnabled = !is2FAEnabled
-        
-        auth.currentUser?.let { user ->
-            db.collection("users").document(user.uid)
-                .update("twoFactorEnabled", is2FAEnabled)
-                .addOnSuccessListener {
-                    update2FADisplay()
-                    val estado = if (is2FAEnabled) {
-                        getString(R.string.twofa_enabled)
-                    } else {
-                        getString(R.string.twofa_disabled)
-                    }
-                    Toast.makeText(
-                        this,
-                        getString(R.string.twofa_toggled, estado),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                .addOnFailureListener {
-                    is2FAEnabled = !is2FAEnabled
-                    Toast.makeText(this, "Error al actualizar 2FA", Toast.LENGTH_SHORT).show()
-                }
-        }
-    }
-
-    private fun update2FADisplay() {
-        val estado = if (is2FAEnabled) {
-            getString(R.string.twofa_enabled)
-        } else {
-            getString(R.string.twofa_disabled)
-        }
-        
-        binding.tvEstado2FA.text = getString(R.string.twofa_status, estado)
-        binding.btnToggle2FA.text = if (is2FAEnabled) {
-            getString(R.string.disable_twofa)
-        } else {
-            getString(R.string.enable_twofa)
         }
     }
 
@@ -151,10 +111,5 @@ class CuentaActivity : AppCompatActivity() {
                 else -> false
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.bottomNavigationView.selectedItemId = R.id.navigation_cuenta
     }
 }

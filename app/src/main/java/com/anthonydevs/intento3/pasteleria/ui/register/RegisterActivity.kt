@@ -26,39 +26,36 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun setupClickListeners() {
-        binding.registerButton.setOnClickListener {
-            handleRegister()
+        binding.btnBack.setOnClickListener {
+            finish()
         }
 
-        binding.loginLink.setOnClickListener {
-            navigateToLogin()
+        binding.registerButton.setOnClickListener {
+            handleRegister()
         }
     }
 
     private fun handleRegister() {
-        val email = binding.registerEmailEditText.text.toString().trim()
+        val nombre = binding.registerEmailEditText.text.toString().trim()
+        val email = binding.registerCorreo.text.toString().trim()
+        val edad = binding.registerEdad.text.toString().trim()
         val password = binding.registerPasswordEditText.text.toString().trim()
-        val confirmPassword = binding.registerConfirmPasswordEditText.text.toString().trim()
 
-        if (!validateInputs(email, password, confirmPassword)) {
+        if (!validateInputs(nombre, email, edad, password)) {
             return
         }
 
         registerUser(email, password)
     }
 
-    private fun validateInputs(email: String, password: String, confirmPassword: String): Boolean {
+    private fun validateInputs(nombre: String, email: String, edad: String, password: String): Boolean {
         return when {
-            email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() -> {
+            nombre.isEmpty() || email.isEmpty() || edad.isEmpty() || password.isEmpty() -> {
                 showError(getString(R.string.error_empty_fields))
                 false
             }
             password.length < 6 -> {
                 showError(getString(R.string.error_password_length))
-                false
-            }
-            password != confirmPassword -> {
-                showError(getString(R.string.error_passwords_mismatch))
                 false
             }
             else -> true
