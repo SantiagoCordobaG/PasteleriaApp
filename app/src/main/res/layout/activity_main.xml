@@ -8,7 +8,6 @@
     android:background="@color/white"
     tools:context=".ui.login.MainActivity">
 
-    <!-- Imagen de fondo -->
     <ImageView
         android:id="@+id/background_image"
         android:layout_width="0dp"
@@ -141,6 +140,5 @@
         app:layout_constraintBottom_toBottomOf="@id/signup_text"
         app:layout_constraintStart_toEndOf="@id/signup_text"
         app:layout_constraintEnd_toEndOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

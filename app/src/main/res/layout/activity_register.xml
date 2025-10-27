@@ -63,7 +63,6 @@
             android:layout_marginBottom="20dp"
             android:autofillHints="password" />
 
-        <!-- Mensaje de error -->
         <TextView
             android:id="@+id/tvErrorRegister"
             android:layout_width="match_parent"
@@ -74,7 +73,6 @@
             android:gravity="center"
             android:layout_marginBottom="12dp" />
 
-        <!-- Botón de Registro -->
         <Button
             android:id="@+id/register_button"
             android:layout_width="match_parent"
@@ -85,7 +83,6 @@
             android:textColor="#FFFFFF"
             android:layout_marginBottom="24dp" />
 
-        <!-- Enlace para ir al login -->
         <TextView
             android:id="@+id/login_link"
             android:layout_width="wrap_content"

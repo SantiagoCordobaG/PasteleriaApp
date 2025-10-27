@@ -5,13 +5,19 @@
     <string name="login_button">Iniciar sesión</string>
     <string name="signup_question">¿No tienes cuenta?</string>
     <string name="signup_link">Regístrate</string>
-    <string name="login_title">Log in</string>
+    <string name="login_title">log in</string>
     <string name="background_description">Imagen de fondo de login</string>
     <string name="email_hint">Correo electrónico</string>
     <string name="password_hint">Contraseña</string>
     
     <!-- Catalog Screen -->
     <string name="catalog_title">Catálogo</string>
+    <string name="favorite_question">¿Cuál es tu postre favorito?</string>
+    <string name="search_placeholder">Search</string>
+    <string name="tab_all">Todos</string>
+    <string name="tab_combos">Combos</string>
+    <string name="tab_promos">Promos</string>
+    <string name="tab_classics">Clásicos</string>
     
     <!-- Navigation -->
     <string name="nav_home">Inicio</string>

@@ -32,6 +32,7 @@ class CatalogoActivity : AppCompatActivity() {
         setupRecyclerView()
         setupBottomNavigation()
         setupSearch()
+        setupClickListeners()
         loadProducts()
     }
 
@@ -63,6 +64,16 @@ class CatalogoActivity : AppCompatActivity() {
                 }
                 else -> false
             }
+        }
+    }
+
+    private fun setupClickListeners() {
+        binding.profileImage.setOnClickListener {
+            startActivity(Intent(this, CuentaActivity::class.java))
+        }
+
+        binding.cartIcon.setOnClickListener {
+            startActivity(Intent(this, CarritoActivity::class.java))
         }
     }
 
@@ -98,39 +109,39 @@ class CatalogoActivity : AppCompatActivity() {
         listaProductos = mutableListOf(
             Producto(
                 id = "1",
-                nombre = "Pastel de Chocolate",
-                descripcion = "Delicioso pastel con cobertura de chocolate.",
-                precio = 25000.0
+                nombre = "Pastel vintage de cereza",
+                descripcion = "Pastel en forma de corazón, personalizable con el mensaje que tú quieras. Hecho con amor, sorprendente y colado. Disponible en chocolate, vainilla y mora con cubito.",
+                precio = 40000.0
             ),
             Producto(
                 id = "2",
-                nombre = "Cheesecake",
-                descripcion = "Suave pastel de queso con salsa de frutos rojos.",
-                precio = 28000.0
+                nombre = "Pastel de cumpleaños azul",
+                descripcion = "Hermoso pastel decorado con crema azul perfecta para celebraciones especiales. Sabor personalizable.",
+                precio = 45000.0
             ),
             Producto(
                 id = "3",
-                nombre = "Tarta de Manzana",
-                descripcion = "Clásica tarta con manzanas caramelizadas.",
-                precio = 22000.0
+                nombre = "Pastel de Arándano para cumpleaños",
+                descripcion = "Delicioso pastel con arándanos frescos y crema suave, ideal para fiestas familiares.",
+                precio = 38000.0
             ),
             Producto(
                 id = "4",
-                nombre = "Brownie",
-                descripcion = "Brownie húmedo con nueces.",
-                precio = 15000.0
+                nombre = "Pastel fiesta colorida",
+                descripcion = "Pastel alegre con decoraciones vibrantes y múltiples sabores para hacer tu fiesta inolvidable.",
+                precio = 42000.0
             ),
             Producto(
                 id = "5",
-                nombre = "Cupcake Vainilla",
-                descripcion = "Esponjoso cupcake con crema batida.",
-                precio = 8000.0
+                nombre = "Pastel de Chocolate",
+                descripcion = "Rico pastel de chocolate con cobertura de cacao y relleno cremoso. Un clásico irresistible.",
+                precio = 35000.0
             ),
             Producto(
                 id = "6",
                 nombre = "Torta de Zanahoria",
-                descripcion = "Torta húmeda con frosting de queso crema.",
-                precio = 26000.0
+                descripcion = "Torta húmeda de zanahoria con frosting de queso crema y nueces. Perfecta para cualquier ocasión.",
+                precio = 37000.0
             )
         )
         
