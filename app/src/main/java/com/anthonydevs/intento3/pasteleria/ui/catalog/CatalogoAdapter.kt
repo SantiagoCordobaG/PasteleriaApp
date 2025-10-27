@@ -18,7 +18,6 @@ class CatalogoAdapter(
 
         fun bind(producto: Producto) {
             binding.tvNombreProducto.text = producto.nombre
-            binding.tvPrecioProducto.text = "4.${(7..9).random()}"
 
             binding.root.setOnClickListener {
                 val context = binding.root.context

@@ -13,6 +13,7 @@ class ProductoDetalleActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProductoDetalleBinding
     private var producto: Producto? = null
+    private var cantidad = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +22,7 @@ class ProductoDetalleActivity : AppCompatActivity() {
 
         loadProductData()
         setupClickListeners()
+        setupCantidadControls()
     }
 
     private fun loadProductData() {
@@ -47,15 +49,46 @@ class ProductoDetalleActivity : AppCompatActivity() {
         }
 
         binding.btnAgregarCarrito.setOnClickListener {
+            val edad = binding.etEdad.text.toString()
+            
+            if (edad.isEmpty()) {
+                Toast.makeText(this, "Por favor ingresa la edad del cumpleañero", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             producto?.let { prod ->
-                CatalogoActivity.carritoItems.add(prod)
-                Toast.makeText(this, "${prod.nombre} agregado al carrito", Toast.LENGTH_SHORT).show()
+                repeat(cantidad) {
+                    CatalogoActivity.carritoItems.add(prod)
+                }
+                Toast.makeText(
+                    this, 
+                    "$cantidad ${prod.nombre} agregado al carrito (Edad: $edad años)", 
+                    Toast.LENGTH_LONG
+                ).show()
                 finish()
             }
         }
 
         binding.btnSearch.setOnClickListener {
             finish()
+        }
+    }
+
+    private fun setupCantidadControls() {
+        binding.tvCantidad.text = cantidad.toString()
+
+        binding.btnAumentar.setOnClickListener {
+            if (cantidad < 99) {
+                cantidad++
+                binding.tvCantidad.text = cantidad.toString()
+            }
+        }
+
+        binding.btnDisminuir.setOnClickListener {
+            if (cantidad > 1) {
+                cantidad--
+                binding.tvCantidad.text = cantidad.toString()
+            }
         }
     }
 }

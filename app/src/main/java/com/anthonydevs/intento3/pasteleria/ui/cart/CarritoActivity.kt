@@ -38,6 +38,12 @@ class CarritoActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@CarritoActivity)
             adapter = carritoAdapter
         }
+        
+        binding.btnPagar.setOnClickListener {
+            if (CatalogoActivity.carritoItems.isNotEmpty()) {
+                startActivity(Intent(this, com.anthonydevs.intento3.pasteleria.ui.payment.PagoActivity::class.java))
+            }
+        }
     }
 
     private fun setupBottomNavigation() {

@@ -21,6 +21,10 @@ class CarritoAdapter(
             
             val formato = NumberFormat.getCurrencyInstance(Locale("es", "CO"))
             binding.precioProducto.text = formato.format(producto.precio)
+            
+            // Por ahora todos los pasteles usan la misma imagen
+            // En el futuro se puede cargar desde producto.imagenUrl con Glide o Picasso
+            binding.imagenProducto.setImageResource(com.anthonydevs.intento3.pasteleria.R.drawable.imagen_fondo_login)
 
             binding.btnEliminar.setOnClickListener {
                 onEliminarClick(producto)
