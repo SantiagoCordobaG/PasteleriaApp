@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".RegisterActivity"
+    tools:context=".ui.register.RegisterActivity"
     android:background="#FFF5F8">
 
     <LinearLayout
@@ -24,7 +24,6 @@
             android:textColor="#333333"
             android:layout_marginBottom="24dp" />
 
-        <!-- Campo Email -->
         <EditText
             android:id="@+id/register_email_edit_text"
             android:layout_width="match_parent"
@@ -35,9 +34,9 @@
             android:drawablePadding="10dp"
             android:background="@android:drawable/edit_text"
             android:padding="12dp"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:autofillHints="emailAddress" />
 
-        <!-- Campo Contraseña -->
         <EditText
             android:id="@+id/register_password_edit_text"
             android:layout_width="match_parent"
@@ -48,9 +47,9 @@
             android:drawablePadding="10dp"
             android:background="@android:drawable/edit_text"
             android:padding="12dp"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:autofillHints="password" />
 
-        <!-- Campo Confirmar Contraseña -->
         <EditText
             android:id="@+id/register_confirm_password_edit_text"
             android:layout_width="match_parent"
@@ -61,7 +60,8 @@
             android:drawablePadding="10dp"
             android:background="@android:drawable/edit_text"
             android:padding="12dp"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="20dp"
+            android:autofillHints="password" />
 
         <!-- Mensaje de error -->
         <TextView

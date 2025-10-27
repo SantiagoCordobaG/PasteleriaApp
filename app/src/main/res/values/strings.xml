@@ -25,13 +25,19 @@
     <string name="navigating_to_signup">Navegando a registro</string>
     
     <!-- Catalog Search -->
-    <string name="search_hint">Buscar producto...</string>
+    <string name="search_hint">Buscar producto…</string>
     <string name="search_button">Buscar</string>
     <string name="add_to_cart">Añadir al carrito</string>
     <string name="logout">Cerrar sesión</string>
     <string name="product_image_description">Imagen del producto</string>
     <string name="price_example">$25.000</string>
     <string name="product_example_name">Pastel de ejemplo</string>
+    
+    <!-- Cart Screen -->
+    <string name="cart_title">Tu Carrito</string>
+    <string name="empty_cart">Tu carrito está vacío</string>
+    <string name="total_default">Total: $0.00</string>
+    <string name="checkout_button">Proceder al Pago</string>
     
     <!-- Register Screen -->
     <string name="error_empty_fields">Por favor, completa todos los campos.</string>
