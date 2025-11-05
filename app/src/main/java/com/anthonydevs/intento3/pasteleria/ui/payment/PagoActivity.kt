@@ -13,9 +13,8 @@ import java.util.Locale
 class PagoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPagoBinding
-    
-    // Número de WhatsApp de la pastelería (Reemplaza con tu número real)
-    private val WHATSAPP_NUMBER = "573238787637" // Formato: código país + número sin espacios ni guiones
+
+    private val WHATSAPP_NUMBER = "573238787637" // Formato: código país + número
     
     private var subtotal = 0.0
     private var impuestos = 0.0
@@ -86,10 +85,10 @@ class PagoActivity : AppCompatActivity() {
         val formato = NumberFormat.getCurrencyInstance(Locale("es", "CO"))
         val sb = StringBuilder()
         
-        sb.append("🎂 *NUEVO PEDIDO - Pastelería Vainilla* 🎂\n\n")
+        sb.append(" *NUEVO PEDIDO - Pastelería Vainilla* \n\n")
         sb.append("━━━━━━━━━━━━━━━━━━━━\n\n")
         
-        sb.append("📋 *PRODUCTOS:*\n")
+        sb.append(" *PRODUCTOS:*\n")
         CatalogoActivity.carritoItems.forEachIndexed { index, producto ->
             sb.append("${index + 1}. ${producto.nombre}\n")
             sb.append("   💰 ${formato.format(producto.precio)}\n")
@@ -106,7 +105,7 @@ class PagoActivity : AppCompatActivity() {
         sb.append("💳 *Método de pago:* $metodoPago\n\n")
         sb.append("📦 *Tiempo estimado:* 15-30 minutos\n\n")
         sb.append("━━━━━━━━━━━━━━━━━━━━\n\n")
-        sb.append("✅ *Confirmo mi pedido y procedo al pago*")
+        sb.append(" *Confirmo mi pedido y procedo al pago*")
         
         return sb.toString()
     }
