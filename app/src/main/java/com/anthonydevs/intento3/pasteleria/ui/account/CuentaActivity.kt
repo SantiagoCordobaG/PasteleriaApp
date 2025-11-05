@@ -99,7 +99,7 @@ class CuentaActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.navigation_home -> {
                     startActivity(Intent(this, CatalogoActivity::class.java))
-                    AoverridePendingTransition(0, 0)
+                    overridePendingTransition(0, 0)
                     true
                 }
                 R.id.navigation_carrito -> {
