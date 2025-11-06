@@ -4,14 +4,14 @@ plugins {
 }
 
 android {
-    namespace = "com.anthonydevs.intento3.pasteleria"
+    namespace = "com.samuel.intento3.pasteleria"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.anthonydevs.intento3.pasteleria"
+        applicationId = "com.samuel.intento3.pasteleria"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
+        versionCode = 2
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -53,3 +53,4 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
+
