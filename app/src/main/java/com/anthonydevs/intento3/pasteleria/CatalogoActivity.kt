@@ -1,4 +1,4 @@
-package com.anthonydevs.intento3.pasteleria
+package com.samuel.intento3.pasteleria
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
