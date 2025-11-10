@@ -16,6 +16,9 @@ class PagoActivity : AppCompatActivity() {
 
     private val WHATSAPP_NUMBER = "573238787637" // Formato: código país + número
     
+    // Locale para formateo de moneda colombiana
+    private val localeCO = Locale.Builder().setLanguage("es").setRegion("CO").build()
+    
     private var subtotal = 0.0
     private var impuestos = 0.0
     private var gastosEnvio = 5000.0
@@ -31,8 +34,8 @@ class PagoActivity : AppCompatActivity() {
     }
 
     private fun calcularTotales() {
-        // Calcular subtotal del carrito
-        subtotal = CatalogoActivity.carritoItems.sumOf { it.precio }
+        // Calcular subtotal del carrito usando CarritoItem
+        subtotal = CatalogoActivity.carritoItems.sumOf { it.getPrecioTotal() }
         
         // Calcular impuestos (2% del subtotal)
         impuestos = subtotal * 0.02
@@ -41,7 +44,7 @@ class PagoActivity : AppCompatActivity() {
         total = subtotal + impuestos + gastosEnvio
 
         // Formatear moneda
-        val formato = NumberFormat.getCurrencyInstance(Locale("es", "CO"))
+        val formato = NumberFormat.getCurrencyInstance(localeCO)
         
         binding.tvSubtotal.text = formato.format(subtotal)
         binding.tvImpuestos.text = formato.format(impuestos)
@@ -55,9 +58,35 @@ class PagoActivity : AppCompatActivity() {
             finish()
         }
 
-        // Permitir seleccionar/deseleccionar el método de pago
+        // Permitir seleccionar/deseleccionar el método de pago Nequi
         binding.cardNequi.setOnClickListener {
-            binding.cbNequi.isChecked = !binding.cbNequi.isChecked
+            if (!binding.cbNequi.isChecked) {
+                // Seleccionar Nequi y deseleccionar tarjeta de débito
+                binding.cbNequi.isChecked = true
+                binding.cbTarjetaDebito.isChecked = false
+            }
+        }
+
+        // Permitir seleccionar/deseleccionar el método de pago Tarjeta de Débito
+        binding.cardTarjetaDebito.setOnClickListener {
+            if (!binding.cbTarjetaDebito.isChecked) {
+                // Seleccionar tarjeta de débito y deseleccionar Nequi
+                binding.cbTarjetaDebito.isChecked = true
+                binding.cbNequi.isChecked = false
+            }
+        }
+
+        // Listeners para los CheckBoxes para mantener la selección mutuamente exclusiva
+        binding.cbNequi.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                binding.cbTarjetaDebito.isChecked = false
+            }
+        }
+
+        binding.cbTarjetaDebito.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                binding.cbNequi.isChecked = false
+            }
         }
 
         binding.btnPagar.setOnClickListener {
@@ -66,13 +95,15 @@ class PagoActivity : AppCompatActivity() {
     }
 
     private fun procesarPago() {
-        // Verificar que el método de pago esté seleccionado
-        if (!binding.cbNequi.isChecked) {
-            Toast.makeText(this, "Por favor selecciona un método de pago", Toast.LENGTH_SHORT).show()
-            return
+        // Verificar que algún método de pago esté seleccionado
+        val metodoPago = when {
+            binding.cbNequi.isChecked -> "Cuenta Nequi"
+            binding.cbTarjetaDebito.isChecked -> "Tarjeta de Débito"
+            else -> {
+                Toast.makeText(this, "Por favor selecciona un método de pago", Toast.LENGTH_SHORT).show()
+                return
+            }
         }
-
-        val metodoPago = "Cuenta Nequi"
 
         // Crear mensaje detallado del pedido
         val mensaje = construirMensajePedido(metodoPago)
@@ -82,16 +113,21 @@ class PagoActivity : AppCompatActivity() {
     }
 
     private fun construirMensajePedido(metodoPago: String): String {
-        val formato = NumberFormat.getCurrencyInstance(Locale("es", "CO"))
+        val formato = NumberFormat.getCurrencyInstance(localeCO)
         val sb = StringBuilder()
         
         sb.append(" *NUEVO PEDIDO - Pastelería Vainilla* \n\n")
         sb.append("━━━━━━━━━━━━━━━━━━━━\n\n")
         
         sb.append(" *PRODUCTOS:*\n")
-        CatalogoActivity.carritoItems.forEachIndexed { index, producto ->
-            sb.append("${index + 1}. ${producto.nombre}\n")
-            sb.append("   💰 ${formato.format(producto.precio)}\n")
+        CatalogoActivity.carritoItems.forEachIndexed { index, carritoItem ->
+            val cantidadTexto = if (carritoItem.cantidad > 1) " x${carritoItem.cantidad}" else ""
+            sb.append("${index + 1}. ${carritoItem.producto.nombre}$cantidadTexto\n")
+            sb.append("   💰 ${formato.format(carritoItem.producto.precio)}")
+            if (carritoItem.cantidad > 1) {
+                sb.append(" (Total: ${formato.format(carritoItem.getPrecioTotal())})")
+            }
+            sb.append("\n")
         }
         
         sb.append("\n━━━━━━━━━━━━━━━━━━━━\n\n")
@@ -102,8 +138,13 @@ class PagoActivity : AppCompatActivity() {
         sb.append("*TOTAL: ${formato.format(total)}*\n\n")
         
         sb.append("━━━━━━━━━━━━━━━━━━━━\n\n")
-        sb.append("💳 *Método de pago:* $metodoPago\n\n")
-        sb.append("📦 *Tiempo estimado:* 15-30 minutos\n\n")
+        sb.append("💳 *Método de pago:* $metodoPago\n")
+        if (metodoPago == "Tarjeta de Débito") {
+            sb.append("   (Aceptamos Visa, Mastercard)\n")
+        } else if (metodoPago == "Cuenta Nequi") {
+            sb.append("   (Número: 3238787637)\n")
+        }
+        sb.append("\n📦 *Tiempo estimado:* 15-30 minutos\n\n")
         sb.append("━━━━━━━━━━━━━━━━━━━━\n\n")
         sb.append(" *Confirmo mi pedido y procedo al pago*")
         
@@ -147,13 +188,51 @@ class PagoActivity : AppCompatActivity() {
     }
 
     private fun mostrarPantallaExito() {
-        // Limpiar el carrito
-        CatalogoActivity.carritoItems.clear()
+        // Guardar la orden antes de limpiar el carrito
+        val metodoPago = when {
+            binding.cbNequi.isChecked -> "Cuenta Nequi"
+            binding.cbTarjetaDebito.isChecked -> "Tarjeta de Débito"
+            else -> "No especificado"
+        }
         
-        // Ir a pantalla de éxito
-        val intent = Intent(this, PagoExitosoActivity::class.java)
-        startActivity(intent)
-        finish()
+        val orden = OrdenManager.crearOrden(
+            productos = CatalogoActivity.carritoItems.toList(),
+            subtotal = subtotal,
+            impuestos = impuestos,
+            gastosEnvio = gastosEnvio,
+            total = total,
+            metodoPago = metodoPago
+        )
+        
+        // Guardar orden en Firestore
+        OrdenManager.guardarOrden(
+            orden = orden,
+            onSuccess = {
+                // Limpiar el carrito después de guardar exitosamente
+                CatalogoActivity.carritoItems.clear()
+                
+                // Ir a pantalla de éxito
+                val intent = Intent(this, PagoExitosoActivity::class.java)
+                startActivity(intent)
+                finish()
+            },
+            onFailure = { exception ->
+                // Mostrar error pero aún así continuar
+                Toast.makeText(
+                    this,
+                    "Orden guardada localmente. Error al guardar en servidor: ${exception.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+                
+                // Limpiar el carrito
+                CatalogoActivity.carritoItems.clear()
+                
+                // Ir a pantalla de éxito
+                val intent = Intent(this, PagoExitosoActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        )
     }
 }
 

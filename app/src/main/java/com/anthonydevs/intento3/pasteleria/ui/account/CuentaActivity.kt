@@ -9,6 +9,8 @@ import com.anthonydevs.intento3.pasteleria.databinding.ActivityCuentaBinding
 import com.anthonydevs.intento3.pasteleria.ui.catalog.CatalogoActivity
 import com.anthonydevs.intento3.pasteleria.ui.cart.CarritoActivity
 import com.anthonydevs.intento3.pasteleria.ui.login.MainActivity
+import com.anthonydevs.intento3.pasteleria.ui.payment.DetallesPagoActivity
+import com.anthonydevs.intento3.pasteleria.ui.payment.HistorialOrdenActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -76,6 +78,33 @@ class CuentaActivity : AppCompatActivity() {
         binding.btnCerrarSesion.setOnClickListener {
             logout()
         }
+
+        binding.tvDetallesPago.setOnClickListener {
+            // Obtener la última orden desde Firestore
+            com.anthonydevs.intento3.pasteleria.ui.payment.OrdenManager.obtenerUltimaOrden(
+                onSuccess = { ultimaOrden ->
+                    if (ultimaOrden != null) {
+                        val intent = Intent(this, DetallesPagoActivity::class.java).apply {
+                            putExtra("ORDEN_ID", ultimaOrden.id)
+                        }
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(this, "No hay órdenes disponibles", Toast.LENGTH_SHORT).show()
+                    }
+                },
+                onFailure = { exception ->
+                    Toast.makeText(
+                        this,
+                        "Error al cargar orden: ${exception.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            )
+        }
+
+        binding.tvHistorialOrden.setOnClickListener {
+            startActivity(Intent(this, HistorialOrdenActivity::class.java))
+        }
     }
 
     private fun logout() {
@@ -99,12 +128,10 @@ class CuentaActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.navigation_home -> {
                     startActivity(Intent(this, CatalogoActivity::class.java))
-                    overridePendingTransition(0, 0)
                     true
                 }
                 R.id.navigation_carrito -> {
                     startActivity(Intent(this, CarritoActivity::class.java))
-                    overridePendingTransition(0, 0)
                     true
                 }
                 R.id.navigation_cuenta -> true

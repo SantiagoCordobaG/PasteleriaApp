@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.anthonydevs.intento3.pasteleria.data.model.Producto
 import com.anthonydevs.intento3.pasteleria.databinding.ActivityProductoDetalleBinding
 import com.anthonydevs.intento3.pasteleria.ui.catalog.CatalogoActivity
+import com.anthonydevs.intento3.pasteleria.util.ImageHelper
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -36,7 +37,11 @@ class ProductoDetalleActivity : AppCompatActivity() {
         binding.tvNombreProducto.text = nombre
         binding.tvDescripcion.text = descripcion
         
-        val formato = NumberFormat.getCurrencyInstance(Locale("es", "CO"))
+        // Cargar imagen según el ID del producto
+        val imageResource = ImageHelper.getImageResource(id)
+        binding.imgProducto.setImageResource(imageResource)
+        
+        val formato = NumberFormat.getCurrencyInstance(Locale.Builder().setLanguage("es").setRegion("CO").build())
         binding.tvPrecio.text = formato.format(precio)
         
         val rating = 4.7 + (Math.random() * 0.3)
@@ -57,12 +62,11 @@ class ProductoDetalleActivity : AppCompatActivity() {
             }
 
             producto?.let { prod ->
-                repeat(cantidad) {
-                    CatalogoActivity.carritoItems.add(prod)
-                }
+                CatalogoActivity.agregarAlCarritoConCantidad(prod, cantidad)
+                val textoCantidad = if (cantidad > 1) "$cantidad unidades de" else ""
                 Toast.makeText(
                     this, 
-                    "$cantidad ${prod.nombre} agregado al carrito (Edad: $edad años)", 
+                    "$textoCantidad ${prod.nombre} agregado al carrito (Edad: $edad años)", 
                     Toast.LENGTH_LONG
                 ).show()
                 finish()

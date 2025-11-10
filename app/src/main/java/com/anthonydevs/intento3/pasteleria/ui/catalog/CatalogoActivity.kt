@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.anthonydevs.intento3.pasteleria.R
 import com.anthonydevs.intento3.pasteleria.data.model.Producto
+import com.anthonydevs.intento3.pasteleria.data.model.CarritoItem
 import com.anthonydevs.intento3.pasteleria.databinding.ActivityCatalogoBinding
 import com.anthonydevs.intento3.pasteleria.ui.account.CuentaActivity
 import com.anthonydevs.intento3.pasteleria.ui.cart.CarritoActivity
@@ -21,7 +22,20 @@ class CatalogoActivity : AppCompatActivity() {
     private var listaFiltrada = mutableListOf<Producto>()
 
     companion object {
-        val carritoItems = mutableListOf<Producto>()
+        val carritoItems = mutableListOf<CarritoItem>()
+        
+        fun agregarAlCarritoConCantidad(producto: Producto, cantidad: Int) {
+            // Buscar si el producto ya existe en el carrito
+            val itemExistente = carritoItems.find { it.producto.id == producto.id }
+            
+            if (itemExistente != null) {
+                // Si existe, incrementar la cantidad
+                itemExistente.cantidad += cantidad
+            } else {
+                // Si no existe, agregar nuevo item
+                carritoItems.add(CarritoItem(producto, cantidad))
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,12 +68,10 @@ class CatalogoActivity : AppCompatActivity() {
                 R.id.navigation_home -> true
                 R.id.navigation_carrito -> {
                     startActivity(Intent(this, CarritoActivity::class.java))
-                    overridePendingTransition(0, 0)
                     true
                 }
                 R.id.navigation_cuenta -> {
                     startActivity(Intent(this, CuentaActivity::class.java))
-                    overridePendingTransition(0, 0)
                     true
                 }
                 else -> false
@@ -151,8 +163,18 @@ class CatalogoActivity : AppCompatActivity() {
     }
 
     private fun agregarAlCarrito(producto: Producto) {
-        carritoItems.add(producto)
-        Toast.makeText(this, "${producto.nombre} agregado al carrito", Toast.LENGTH_SHORT).show()
+        // Buscar si el producto ya existe en el carrito
+        val itemExistente = carritoItems.find { it.producto.id == producto.id }
+        
+        if (itemExistente != null) {
+            // Si existe, incrementar la cantidad
+            itemExistente.cantidad++
+            Toast.makeText(this, "${producto.nombre} agregado al carrito (Cantidad: ${itemExistente.cantidad})", Toast.LENGTH_SHORT).show()
+        } else {
+            // Si no existe, agregar nuevo item
+            carritoItems.add(CarritoItem(producto, 1))
+            Toast.makeText(this, "${producto.nombre} agregado al carrito", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onResume() {
