@@ -146,7 +146,7 @@ class CatalogoActivity : AppCompatActivity() {
             Producto(
                 id = "5",
                 nombre = "Pastel de Chocolate",
-                descripcion = "Rico pastel de chocolate con cobertura de cacao y relleno cremoso. Un clásico irresistible.",
+                descripcion = "Delicioso pastel de chocolate con cobertura de cacao y relleno cremoso. Un clásico irresistible.",
                 precio = 35000.0
             ),
             Producto(
