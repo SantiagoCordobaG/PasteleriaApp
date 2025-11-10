@@ -122,7 +122,7 @@ class CatalogoActivity : AppCompatActivity() {
             Producto(
                 id = "1",
                 nombre = "Pastel vintage de cereza",
-                descripcion = "Pastel en forma de corazón, personalizable con el mensaje que tú quieras. Hecho con amor, sorprendente y colado. Disponible en chocolate, vainilla y mora con cubito.",
+                descripcion = "Pastel en forma de corazón, personalizable con el mensaje que tú quieras.hazlo saber en nuestro whatsapp",
                 precio = 40000.0
             ),
             Producto(
