@@ -152,7 +152,7 @@ class CatalogoActivity : AppCompatActivity() {
             Producto(
                 id = "6",
                 nombre = "Torta de Zanahoria",
-                descripcion = "Torta húmeda de zanahoria con frosting de queso crema y nueces. Perfecta para cualquier ocasión.",
+                descripcion = "Torta húmeda de zanahoria con frosting de queso crema. Perfecta para cualquier ocasión.",
                 precio = 37000.0
             )
         )
