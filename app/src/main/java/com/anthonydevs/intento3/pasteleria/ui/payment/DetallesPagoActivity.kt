@@ -29,7 +29,7 @@ class DetallesPagoActivity : AppCompatActivity() {
         if (ordenId != null && ordenId.isNotEmpty()) {
             cargarOrden(ordenId)
         } else {
-            Toast.makeText(this, "Error: ID de orden no válido", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Error: ID de orden no válido.", Toast.LENGTH_SHORT).show()
             finish()
         }
     }
