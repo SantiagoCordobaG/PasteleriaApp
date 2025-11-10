@@ -13,7 +13,7 @@
     
     <!-- Catalog Screen -->
     <string name="catalog_title">Catálogo</string>
-    <string name="favorite_question">¿Cuál es tu postre favorito?</string>
+    <string name="favorite_question">¿Cuál es tu flor favorita?</string>
     <string name="search_placeholder">Search</string>
     <string name="tab_all">Todos</string>
     <string name="tab_combos">Combos</string>
