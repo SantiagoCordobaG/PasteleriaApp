@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.anthonydevs.intento3.pasteleria.data.model.Producto
 import com.anthonydevs.intento3.pasteleria.databinding.ItemCatalogoBinding
 import com.anthonydevs.intento3.pasteleria.ui.product.ProductoDetalleActivity
+import com.anthonydevs.intento3.pasteleria.util.ImageHelper
 
 class CatalogoAdapter(
     private val listaProductos: MutableList<Producto>,
@@ -18,6 +19,10 @@ class CatalogoAdapter(
 
         fun bind(producto: Producto) {
             binding.tvNombreProducto.text = producto.nombre
+            
+            // Cargar imagen según el ID del producto
+            val imageResource = ImageHelper.getImageResource(producto.id)
+            binding.imgProducto.setImageResource(imageResource)
 
             binding.root.setOnClickListener {
                 val context = binding.root.context

@@ -42,7 +42,7 @@ class RecuperarContrasenaActivity : AppCompatActivity() {
 
         auth.sendPasswordResetEmail(email)
             .addOnSuccessListener {
-                binding.tvMensaje.text = "✓ Correo enviado exitosamente. Revisa tu bandeja de entrada"
+                binding.tvMensaje.text = " Correo enviado exitosamente. Revisa tu bandeja de entrada"
                 binding.tvMensaje.visibility = View.VISIBLE
                 binding.etEmail.text?.clear()
             }

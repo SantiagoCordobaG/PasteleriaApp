@@ -42,8 +42,8 @@ class CarritoActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        carritoAdapter = CarritoAdapter(CatalogoActivity.carritoItems) { producto ->
-            CatalogoActivity.carritoItems.remove(producto)
+        carritoAdapter = CarritoAdapter(CatalogoActivity.carritoItems) { carritoItem ->
+            CatalogoActivity.carritoItems.remove(carritoItem)
             carritoAdapter.notifyDataSetChanged()
             updateUI()
         }
@@ -72,14 +72,12 @@ class CarritoActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.navigation_home -> {
                     startActivity(Intent(this, CatalogoActivity::class.java))
-                    overridePendingTransition(0, 0)
                     true
                 }
 
                 R.id.navigation_carrito -> true
                 R.id.navigation_cuenta -> {
                     startActivity(Intent(this, CuentaActivity::class.java))
-                    overridePendingTransition(0, 0)
                     true
                 }
 
@@ -100,8 +98,8 @@ class CarritoActivity : AppCompatActivity() {
             binding.tvTotal.visibility = View.VISIBLE
             binding.btnPagar.visibility = View.VISIBLE
 
-            val total = CatalogoActivity.carritoItems.sumOf { it.precio }
-            val formato = NumberFormat.getCurrencyInstance(Locale("es", "CO"))
+            val total = CatalogoActivity.carritoItems.sumOf { it.getPrecioTotal() }
+            val formato = NumberFormat.getCurrencyInstance(Locale.Builder().setLanguage("es").setRegion("CO").build())
             binding.tvTotal.text = "Total: ${formato.format(total)}"
         }
     }
