@@ -4,7 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.anthonydevs.intento3.pasteleria.R
 import com.anthonydevs.intento3.pasteleria.data.model.Producto
@@ -26,14 +30,38 @@ class CatalogoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // 👉 Activa modo edge-to-edge
+        enableEdgeToEdge()
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         binding = ActivityCatalogoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // 👉 Ajusta el header según la barra del sistema
+        aplicarPaddingParaStatusBar()
 
         setupRecyclerView()
         setupBottomNavigation()
         setupSearch()
         setupClickListeners()
         loadProducts()
+    }
+
+    /** --------------------------------------
+     *      🔥 AQUI SE SOLUCIONA TU PROBLEMA
+     * -------------------------------------- */
+    private fun aplicarPaddingParaStatusBar() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.header) { view, insets ->
+            val statusBar = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+            view.setPadding(
+                view.paddingLeft,
+                statusBar, // 👉 empuja tu header hacia abajo
+                view.paddingRight,
+                view.paddingBottom
+            )
+            insets
+        }
     }
 
     private fun setupRecyclerView() {
@@ -107,44 +135,20 @@ class CatalogoActivity : AppCompatActivity() {
 
     private fun loadProducts() {
         listaProductos = mutableListOf(
-            Producto(
-                id = "1",
-                nombre = "Pastel vintage de cereza",
-                descripcion = "Pastel en forma de corazón, personalizable con el mensaje que tú quieras. Hecho con amor, sorprendente y colado. Disponible en chocolate, vainilla y mora con cubito.",
-                precio = 40000.0
-            ),
-            Producto(
-                id = "2",
-                nombre = "Pastel de cumpleaños azul",
-                descripcion = "Hermoso pastel decorado con crema azul perfecta para celebraciones especiales. Sabor personalizable.",
-                precio = 45000.0
-            ),
-            Producto(
-                id = "3",
-                nombre = "Pastel de Arándano para cumpleaños",
-                descripcion = "Delicioso pastel con arándanos frescos y crema suave, ideal para fiestas familiares.",
-                precio = 38000.0
-            ),
-            Producto(
-                id = "4",
-                nombre = "Pastel fiesta colorida",
-                descripcion = "Pastel alegre con decoraciones vibrantes y múltiples sabores para hacer tu fiesta inolvidable.",
-                precio = 42000.0
-            ),
-            Producto(
-                id = "5",
-                nombre = "Pastel de Chocolate",
-                descripcion = "Rico pastel de chocolate con cobertura de cacao y relleno cremoso. Un clásico irresistible.",
-                precio = 35000.0
-            ),
-            Producto(
-                id = "6",
-                nombre = "Torta de Zanahoria",
-                descripcion = "Torta húmeda de zanahoria con frosting de queso crema y nueces. Perfecta para cualquier ocasión.",
-                precio = 37000.0
-            )
+            Producto("1", "Pastel vintage de cereza",
+                "Pastel en forma de corazón, personalizable con mensaje.", 40000.0),
+            Producto("2", "Pastel de cumpleaños azul",
+                "Pastel decorado con crema azul perfecta para celebraciones.", 45000.0),
+            Producto("3", "Pastel de Arándano para cumpleaños",
+                "Delicioso pastel con arándanos frescos.", 38000.0),
+            Producto("4", "Pastel fiesta colorida",
+                "Decoraciones vibrantes y múltiples sabores.", 42000.0),
+            Producto("5", "Pastel de Chocolate",
+                "Clásico irresistible con cobertura de cacao.", 35000.0),
+            Producto("6", "Torta de Zanahoria",
+                "Torta húmeda con frosting de queso crema.", 37000.0)
         )
-        
+
         listaFiltrada.clear()
         listaFiltrada.addAll(listaProductos)
         catalogoAdapter.notifyDataSetChanged()

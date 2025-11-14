@@ -1,9 +1,11 @@
 package com.anthonydevs.intento3.pasteleria.ui.account
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.anthonydevs.intento3.pasteleria.databinding.ActivityEditarPerfilBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,9 +17,16 @@ class EditarPerfilActivity : AppCompatActivity() {
     private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        // 🔥 Activa edge-to-edge antes de setContentView
+        enableEdgeToEdge()
+
         super.onCreate(savedInstanceState)
         binding = ActivityEditarPerfilBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // 🔥 Ajuste de paddings contra status bar y nav bar
+        setupEdgeToEdgeInsets()
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
@@ -25,6 +34,27 @@ class EditarPerfilActivity : AppCompatActivity() {
         loadUserData()
         setupClickListeners()
     }
+
+    // ============================================================
+    // EDGE TO EDGE FIX 🔥
+    // ============================================================
+    private fun setupEdgeToEdgeInsets() {
+        val root = binding.root
+
+        ViewCompat.setOnApplyWindowInsetsListener(root) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            view.setPadding(
+                view.paddingLeft,
+                systemBars.top,      // evita que se tape con la barra superior
+                view.paddingRight,
+                systemBars.bottom    // evita que se tape con la nav bar
+            )
+
+            insets
+        }
+    }
+    // ============================================================
 
     private fun loadUserData() {
         val user = auth.currentUser
@@ -90,4 +120,3 @@ class EditarPerfilActivity : AppCompatActivity() {
         }
     }
 }
-

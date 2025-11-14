@@ -3,7 +3,10 @@ package com.anthonydevs.intento3.pasteleria.ui.cart
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anthonydevs.intento3.pasteleria.R
 import com.anthonydevs.intento3.pasteleria.databinding.ActivityCarritoBinding
@@ -18,9 +21,20 @@ class CarritoActivity : AppCompatActivity() {
     private lateinit var carritoAdapter: CarritoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        // 🔥 Activa edge-to-edge antes del setContentView
+        enableEdgeToEdge()
+
         super.onCreate(savedInstanceState)
         binding = ActivityCarritoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // 🔥 Ajusta padding automático según las barras del sistema
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(0, systemBars.top, 0, systemBars.bottom)
+            insets
+        }
 
         setupRecyclerView()
         setupBottomNavigation()
@@ -38,10 +52,15 @@ class CarritoActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@CarritoActivity)
             adapter = carritoAdapter
         }
-        
+
         binding.btnPagar.setOnClickListener {
             if (CatalogoActivity.carritoItems.isNotEmpty()) {
-                startActivity(Intent(this, com.anthonydevs.intento3.pasteleria.ui.payment.PagoActivity::class.java))
+                startActivity(
+                    Intent(
+                        this,
+                        com.anthonydevs.intento3.pasteleria.ui.payment.PagoActivity::class.java
+                    )
+                )
             }
         }
     }
@@ -56,12 +75,14 @@ class CarritoActivity : AppCompatActivity() {
                     overridePendingTransition(0, 0)
                     true
                 }
+
                 R.id.navigation_carrito -> true
                 R.id.navigation_cuenta -> {
                     startActivity(Intent(this, CuentaActivity::class.java))
                     overridePendingTransition(0, 0)
                     true
                 }
+
                 else -> false
             }
         }

@@ -3,7 +3,10 @@ package com.anthonydevs.intento3.pasteleria.ui.account
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.anthonydevs.intento3.pasteleria.R
 import com.anthonydevs.intento3.pasteleria.databinding.ActivityCuentaBinding
 import com.anthonydevs.intento3.pasteleria.ui.catalog.CatalogoActivity
@@ -19,9 +22,15 @@ class CuentaActivity : AppCompatActivity() {
     private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // 🔥 Activa edge-to-edge
+        enableEdgeToEdge()
+
         super.onCreate(savedInstanceState)
         binding = ActivityCuentaBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // 🔥 Ajusta automáticamente los paddings para NO cortar el layout
+        setupEdgeToEdgeInsets()
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
@@ -36,6 +45,29 @@ class CuentaActivity : AppCompatActivity() {
         displayUserInfo()
         binding.bottomNavigationView.selectedItemId = R.id.navigation_cuenta
     }
+
+    // ============================================================
+    // 🔥 EDGE-TO-EDGE FIX
+    // ============================================================
+    private fun setupEdgeToEdgeInsets() {
+        val root = binding.root
+
+        ViewCompat.setOnApplyWindowInsetsListener(root) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            // Agrega padding top para que NO se tape con la barra
+            view.setPadding(
+                view.paddingLeft,
+                systemBars.top,
+                view.paddingRight,
+                systemBars.bottom
+            )
+
+            insets
+        }
+    }
+
+    // ============================================================
 
     private fun checkUserAuthentication() {
         if (auth.currentUser == null) {
@@ -52,11 +84,8 @@ class CuentaActivity : AppCompatActivity() {
             db.collection("users").document(user.uid)
                 .get()
                 .addOnSuccessListener { document ->
-                    if (document.exists()) {
-                        binding.tvDireccion.text = document.getString("direccion") ?: "No especificada"
-                    } else {
-                        binding.tvDireccion.text = "No especificada"
-                    }
+                    binding.tvDireccion.text =
+                        document.getString("direccion") ?: "No especificada"
                 }
                 .addOnFailureListener {
                     binding.tvDireccion.text = "No especificada"
@@ -65,17 +94,13 @@ class CuentaActivity : AppCompatActivity() {
     }
 
     private fun setupClickListeners() {
-        binding.btnBack.setOnClickListener {
-            finish()
-        }
+        binding.btnBack.setOnClickListener { finish() }
 
         binding.btnEditarPerfil.setOnClickListener {
             startActivity(Intent(this, EditarPerfilActivity::class.java))
         }
 
-        binding.btnCerrarSesion.setOnClickListener {
-            logout()
-        }
+        binding.btnCerrarSesion.setOnClickListener { logout() }
     }
 
     private fun logout() {

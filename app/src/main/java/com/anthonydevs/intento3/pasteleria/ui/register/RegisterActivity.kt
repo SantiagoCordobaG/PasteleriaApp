@@ -4,6 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.appcompat.app.AppCompatActivity
 import com.anthonydevs.intento3.pasteleria.R
 import com.anthonydevs.intento3.pasteleria.databinding.ActivityRegisterBinding
@@ -16,9 +19,24 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge() // ⬅️ Activa edge-to-edge
         super.onCreate(savedInstanceState)
+
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // ⬅️ Ajusta los paddings para que no estorben los botones del celular
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            view.setPadding(
+                view.paddingLeft,
+                systemBars.top,      // status bar
+                view.paddingRight,
+                systemBars.bottom    // navigation bar
+            )
+            WindowInsetsCompat.CONSUMED
+        }
 
         auth = FirebaseAuth.getInstance()
 
@@ -41,9 +59,7 @@ class RegisterActivity : AppCompatActivity() {
         val edad = binding.registerEdad.text.toString().trim()
         val password = binding.registerPasswordEditText.text.toString().trim()
 
-        if (!validateInputs(nombre, email, edad, password)) {
-            return
-        }
+        if (!validateInputs(nombre, email, edad, password)) return
 
         registerUser(email, password)
     }
