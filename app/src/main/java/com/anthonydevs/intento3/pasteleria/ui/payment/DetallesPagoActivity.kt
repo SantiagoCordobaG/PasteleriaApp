@@ -3,6 +3,9 @@ package com.anthonydevs.intento3.pasteleria.ui.payment
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anthonydevs.intento3.pasteleria.databinding.ActivityDetallesPagoBinding
 import com.anthonydevs.intento3.pasteleria.data.model.Orden
@@ -21,6 +24,19 @@ class DetallesPagoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetallesPagoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // 🔥 EXACTO MISMO FIX QUE USASTE EN CatalogoActivity
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val status = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+            val nav = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+
+            view.updatePadding(
+                top = status.top,     // espacio para barra superior
+                bottom = nav.bottom   // espacio para barra inferior
+            )
+
+            insets
+        }
 
         setupClickListeners()
         

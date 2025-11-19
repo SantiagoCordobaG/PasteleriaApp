@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.anthonydevs.intento3.pasteleria.R
@@ -13,6 +14,8 @@ import com.anthonydevs.intento3.pasteleria.databinding.ActivityCatalogoBinding
 import com.anthonydevs.intento3.pasteleria.ui.account.CuentaActivity
 import com.anthonydevs.intento3.pasteleria.ui.cart.CarritoActivity
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 
 class CatalogoActivity : AppCompatActivity() {
 
@@ -23,16 +26,13 @@ class CatalogoActivity : AppCompatActivity() {
 
     companion object {
         val carritoItems = mutableListOf<CarritoItem>()
-        
+
         fun agregarAlCarritoConCantidad(producto: Producto, cantidad: Int) {
-            // Buscar si el producto ya existe en el carrito
             val itemExistente = carritoItems.find { it.producto.id == producto.id }
-            
+
             if (itemExistente != null) {
-                // Si existe, incrementar la cantidad
                 itemExistente.cantidad += cantidad
             } else {
-                // Si no existe, agregar nuevo item
                 carritoItems.add(CarritoItem(producto, cantidad))
             }
         }
@@ -40,8 +40,26 @@ class CatalogoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        enableEdgeToEdge()
+
         binding = ActivityCatalogoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // 🔥 FIX COMPLETO PARA ANDROID 14–16 (NO TAPA NADA)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val status = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+            val nav = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+
+            view.setPadding(
+                view.paddingLeft,
+                status.top,     // espacio arriba
+                view.paddingRight,
+                nav.bottom      // espacio abajo
+            )
+
+            insets
+        }
 
         setupRecyclerView()
         setupBottomNavigation()
@@ -119,59 +137,26 @@ class CatalogoActivity : AppCompatActivity() {
 
     private fun loadProducts() {
         listaProductos = mutableListOf(
-            Producto(
-                id = "1",
-                nombre = "Pastel vintage de cereza",
-                descripcion = "Pastel en forma de corazón, personalizable con el mensaje que tú quieras.hazlo saber en nuestro whatsapp",
-                precio = 40000.0
-            ),
-            Producto(
-                id = "2",
-                nombre = "Pastel de cumpleaños azul",
-                descripcion = "Hermoso pastel decorado con crema azul perfecta para celebraciones especiales. Sabor personalizable.",
-                precio = 45000.0
-            ),
-            Producto(
-                id = "3",
-                nombre = "Pastel de Arándano para cumpleaños",
-                descripcion = "Delicioso pastel con arándanos frescos y crema suave, ideal para fiestas familiares.",
-                precio = 38000.0
-            ),
-            Producto(
-                id = "4",
-                nombre = "Pastel fiesta colorida",
-                descripcion = "Pastel alegre con decoraciones vibrantes y múltiples sabores para hacer tu fiesta inolvidable.",
-                precio = 42000.0
-            ),
-            Producto(
-                id = "5",
-                nombre = "Pastel de Chocolate",
-                descripcion = "Delicioso pastel de chocolate con cobertura de cacao y relleno cremoso. Un clásico irresistible.",
-                precio = 35000.0
-            ),
-            Producto(
-                id = "6",
-                nombre = "Torta de Zanahoria",
-                descripcion = "Torta húmeda de zanahoria con frosting de queso crema. Perfecta para cualquier ocasión.",
-                precio = 37000.0
-            )
+            Producto("1", "Pastel vintage de cereza", "Pastel en forma de corazón, personalizable con el mensaje que tú quieras.hazlo saber en nuestro whatsapp", 40000.0),
+            Producto("2", "Pastel de cumpleaños azul", "Hermoso pastel decorado con crema azul perfecta para celebraciones especiales. Sabor personalizable.", 45000.0),
+            Producto("3", "Pastel de Arándano para cumpleaños", "Delicioso pastel con arándanos frescos y crema suave, ideal para fiestas familiares.", 38000.0),
+            Producto("4", "Pastel fiesta colorida", "Pastel alegre con decoraciones vibrantes y múltiples sabores para hacer tu fiesta inolvidable.", 42000.0),
+            Producto("5", "Pastel de Chocolate", "Delicioso pastel de chocolate con cobertura de cacao y relleno cremoso. Un clásico irresistible.", 35000.0),
+            Producto("6", "Torta de Zanahoria", "Torta húmeda de zanahoria con frosting de queso crema. Perfecta para cualquier ocasión.", 37000.0)
         )
-        
+
         listaFiltrada.clear()
         listaFiltrada.addAll(listaProductos)
         catalogoAdapter.notifyDataSetChanged()
     }
 
     private fun agregarAlCarrito(producto: Producto) {
-        // Buscar si el producto ya existe en el carrito
         val itemExistente = carritoItems.find { it.producto.id == producto.id }
-        
+
         if (itemExistente != null) {
-            // Si existe, incrementar la cantidad
             itemExistente.cantidad++
             Toast.makeText(this, "${producto.nombre} agregado al carrito (Cantidad: ${itemExistente.cantidad})", Toast.LENGTH_SHORT).show()
         } else {
-            // Si no existe, agregar nuevo item
             carritoItems.add(CarritoItem(producto, 1))
             Toast.makeText(this, "${producto.nombre} agregado al carrito", Toast.LENGTH_SHORT).show()
         }

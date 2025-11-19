@@ -11,6 +11,9 @@ import com.anthonydevs.intento3.pasteleria.ui.catalog.CatalogoActivity
 import com.anthonydevs.intento3.pasteleria.ui.register.RegisterActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +25,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // 🔥 EXACTO MISMO FIX QUE USASTE EN CatalogoActivity
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val status = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+            val nav = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+
+            view.updatePadding(
+                top = status.top,     // espacio para barra superior
+                bottom = nav.bottom   // espacio para barra inferior
+            )
+
+            insets
+        }
 
         auth = FirebaseAuth.getInstance()
 

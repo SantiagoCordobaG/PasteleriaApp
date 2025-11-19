@@ -12,6 +12,9 @@ import com.anthonydevs.intento3.pasteleria.ui.login.MainActivity
 import com.anthonydevs.intento3.pasteleria.ui.payment.DetallesPagoActivity
 import com.anthonydevs.intento3.pasteleria.ui.payment.HistorialOrdenActivity
 import com.google.firebase.auth.FirebaseAuth
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.google.firebase.firestore.FirebaseFirestore
 
 class CuentaActivity : AppCompatActivity() {
@@ -24,6 +27,19 @@ class CuentaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCuentaBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // 🔥 EXACTO MISMO FIX QUE USASTE EN CatalogoActivity
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val status = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+            val nav = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+
+            view.updatePadding(
+                top = status.top,     // espacio para barra superior
+                bottom = nav.bottom   // espacio para barra inferior
+            )
+
+            insets
+        }
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()

@@ -9,6 +9,9 @@ import com.anthonydevs.intento3.pasteleria.ui.catalog.CatalogoActivity
 import com.anthonydevs.intento3.pasteleria.util.ImageHelper
 import java.text.NumberFormat
 import java.util.Locale
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 
 class ProductoDetalleActivity : AppCompatActivity() {
 
@@ -20,6 +23,19 @@ class ProductoDetalleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProductoDetalleBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // 🔥 EXACTO MISMO FIX QUE USASTE EN CatalogoActivity
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val status = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+            val nav = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+
+            view.updatePadding(
+                top = status.top,     // espacio para barra superior
+                bottom = nav.bottom   // espacio para barra inferior
+            )
+
+            insets
+        }
 
         loadProductData()
         setupClickListeners()

@@ -9,6 +9,9 @@ import com.anthonydevs.intento3.pasteleria.R
 import com.anthonydevs.intento3.pasteleria.databinding.ActivityCarritoBinding
 import com.anthonydevs.intento3.pasteleria.ui.account.CuentaActivity
 import com.anthonydevs.intento3.pasteleria.ui.catalog.CatalogoActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -21,6 +24,19 @@ class CarritoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCarritoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // 🔥 EXACTO MISMO FIX QUE USASTE EN CatalogoActivity
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val status = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+            val nav = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+
+            view.updatePadding(
+                top = status.top,     // espacio para barra superior
+                bottom = nav.bottom   // espacio para barra inferior
+            )
+
+            insets
+        }
 
         setupRecyclerView()
         setupBottomNavigation()
@@ -38,7 +54,7 @@ class CarritoActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@CarritoActivity)
             adapter = carritoAdapter
         }
-        
+
         binding.btnPagar.setOnClickListener {
             if (CatalogoActivity.carritoItems.isNotEmpty()) {
                 startActivity(Intent(this, com.anthonydevs.intento3.pasteleria.ui.payment.PagoActivity::class.java))
@@ -78,7 +94,9 @@ class CarritoActivity : AppCompatActivity() {
             binding.btnPagar.visibility = View.VISIBLE
 
             val total = CatalogoActivity.carritoItems.sumOf { it.getPrecioTotal() }
-            val formato = NumberFormat.getCurrencyInstance(Locale.Builder().setLanguage("es").setRegion("CO").build())
+            val formato = NumberFormat.getCurrencyInstance(
+                Locale.Builder().setLanguage("es").setRegion("CO").build()
+            )
             binding.tvTotal.text = "Total: ${formato.format(total)}"
         }
     }
