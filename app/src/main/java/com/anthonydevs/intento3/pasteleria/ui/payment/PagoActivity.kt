@@ -17,7 +17,7 @@ class PagoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPagoBinding
 
-    private val WHATSAPP_NUMBER = "573238787637" // Formato: código país + número
+    private val WHATSAPP_NUMBER = "573022462123" // Formato: código país + número
     
     // Locale para formateo de moneda colombiana
     private val localeCO = Locale.Builder().setLanguage("es").setRegion("CO").build()
@@ -158,7 +158,7 @@ class PagoActivity : AppCompatActivity() {
         if (metodoPago == "Tarjeta de Débito") {
             sb.append("   (Aceptamos Visa, Mastercard)\n")
         } else if (metodoPago == "Cuenta Nequi") {
-            sb.append("   (Número: 3238787637)\n")
+            sb.append("   (Número: 3022462123)\n")
         }
         sb.append("\n📦 *Tiempo estimado:* 15-30 minutos\n\n")
         sb.append("━━━━━━━━━━━━━━━━━━━━\n\n")
